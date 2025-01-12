@@ -3,7 +3,7 @@ package Opengl
 import "core:fmt"
 import "core:os"
 import "vendor:glfw"
-import gl "vendor:opengl"
+import gl "vendor:OpenGL"
 
 main :: proc() {
     glfw.Init()
@@ -38,4 +38,5 @@ main :: proc() {
 
 process_inputs :: proc(window: glfw.WindowHandle) {
     if glfw.GetKey(window, glfw.KEY_ESCAPE) == glfw.PRESS do glfw.SetWindowShouldClose(window, true)
+    if glfw.GetKey(window, glfw.KEY_Q) == glfw.PRESS do glfw.SetWindowShouldClose(window, true)
 }
