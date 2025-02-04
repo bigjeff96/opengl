@@ -5,6 +5,8 @@ import "core:os"
 import "vendor:glfw"
 import gl "vendor:OpenGL"
 
+print :: fmt.println
+
 vertex_shader_code := #load("vertex_shader.glsl", cstring)
 fragment_shader_code := #load("fragment_shader.glsl", cstring)
 
@@ -15,6 +17,8 @@ main :: proc() {
     glfw.WindowHint(glfw.CONTEXT_VERSION_MAJOR, 3)
     glfw.WindowHint(glfw.CONTEXT_VERSION_MINOR, 3)
     glfw.WindowHint(glfw.OPENGL_PROFILE, glfw.OPENGL_CORE_PROFILE)
+    glfw.WindowHint(glfw.FLOATING, glfw.TRUE)
+    glfw.WindowHint(glfw.RESIZABLE, glfw.FALSE)
 
     window := glfw.CreateWindow(800, 600, "LearnOpenGL", nil, nil)
     if (window == nil)
@@ -22,11 +26,17 @@ main :: proc() {
         fmt.println("Failed to create window")
         os.exit(1)
     }
+    defer glfw.DestroyWindow(window)
+
     glfw.MakeContextCurrent(window)
 
     gl.load_up_to(3, 3, glfw.gl_set_proc_address)
 
     gl.Viewport(0, 0, 800, 600)
+
+    nrAttributes : i32 = 0
+    gl.GetIntegerv(gl.MAX_VERTEX_ATTRIBS, &nrAttributes)
+    print(nrAttributes)
 
     vertex_shader, fragment_shader, shader_program : u32
     {
